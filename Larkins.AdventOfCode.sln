@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Larkins.AdventOfCode", "src\Larkins.AdventOfCode\Larkins.AdventOfCode.csproj", "{5C1BDC82-E6A3-464B-A1FC-1E11802179EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C67A3B2B-8F94-464C-A13F-A448098B2F23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{30E47F19-DB11-45B2-8825-1F0ED42D2C25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Larkins.AdventOfCode.Tests", "Larkins.AdventOfCode.Tests\Larkins.AdventOfCode.Tests.csproj", "{9C3ABC58-568B-4891-AD63-AF16457CEB8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C1BDC82-E6A3-464B-A1FC-1E11802179EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C1BDC82-E6A3-464B-A1FC-1E11802179EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C1BDC82-E6A3-464B-A1FC-1E11802179EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C1BDC82-E6A3-464B-A1FC-1E11802179EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3ABC58-568B-4891-AD63-AF16457CEB8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3ABC58-568B-4891-AD63-AF16457CEB8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3ABC58-568B-4891-AD63-AF16457CEB8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3ABC58-568B-4891-AD63-AF16457CEB8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5C1BDC82-E6A3-464B-A1FC-1E11802179EE} = {C67A3B2B-8F94-464C-A13F-A448098B2F23}
+		{9C3ABC58-568B-4891-AD63-AF16457CEB8F} = {30E47F19-DB11-45B2-8825-1F0ED42D2C25}
+	EndGlobalSection
+EndGlobal
