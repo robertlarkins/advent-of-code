@@ -9,6 +9,11 @@ public class TextFileReader
         return File.ReadAllText(filename);
     }
 
+    public string[] ReadTextToSeparateLines(string filename)
+    {
+        return File.ReadAllLines(filename);
+    }
+
     /// <summary>
     /// Implementation based on: https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/read-write-text-file
     /// </summary>
