@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
+using Larkins.AdventOfCode.Utilities;
 
-namespace Larkins.AdventOfCode.Tests;
+namespace Larkins.AdventOfCode.Tests.UtilityTests;
 
 public class TextFileReaderTests
 {

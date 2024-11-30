@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Larkins.AdventOfCode\Larkins.AdventOfCode.csproj" />
+      <ProjectReference Include="..\..\src\Larkins.AdventOfCode\Larkins.AdventOfCode.csproj" />
     </ItemGroup>
 
     <ItemGroup>
