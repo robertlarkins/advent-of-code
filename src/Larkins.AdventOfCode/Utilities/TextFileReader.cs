@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Larkins.AdventOfCode;
+namespace Larkins.AdventOfCode.Utilities;
 
 public class TextFileReader
 {

@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C67A3B2B-8F9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{30E47F19-DB11-45B2-8825-1F0ED42D2C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Larkins.AdventOfCode.Tests", "Larkins.AdventOfCode.Tests\Larkins.AdventOfCode.Tests.csproj", "{9C3ABC58-568B-4891-AD63-AF16457CEB8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Larkins.AdventOfCode.Tests", "tests\Larkins.AdventOfCode.Tests\Larkins.AdventOfCode.Tests.csproj", "{9C3ABC58-568B-4891-AD63-AF16457CEB8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
