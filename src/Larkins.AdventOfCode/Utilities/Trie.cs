@@ -1,5 +1,12 @@
 namespace Larkins.AdventOfCode.Utilities;
 
+public enum WordSearchResult
+{
+    Found,
+    StartOfWord,
+    NotFound
+}
+
 /// <summary>
 /// A Trie is a type of search tree.
 /// https://en.wikipedia.org/wiki/Trie
@@ -27,7 +34,15 @@ public class Trie
         currentNode!.IsWord = true;
     }
 
-    public bool HasWord(string word)
+    public void AddWords(IEnumerable<string> words)
+    {
+        foreach (var word in words)
+        {
+            AddWord(word);
+        }
+    }
+
+    public WordSearchResult SearchForWord(string word)
     {
         var currentNode = root;
         foreach (var @char in word)
@@ -36,11 +51,13 @@ public class Trie
 
             if (!hasNextCharNode)
             {
-                return false;
+                return WordSearchResult.NotFound;
             }
         }
 
-        return currentNode!.IsWord;
+        return currentNode!.IsWord
+            ? WordSearchResult.Found
+            : WordSearchResult.StartOfWord;
     }
 
     private class Node
