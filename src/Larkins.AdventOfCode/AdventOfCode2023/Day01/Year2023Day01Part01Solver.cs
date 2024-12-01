@@ -1,6 +1,6 @@
 namespace Larkins.AdventOfCode.AdventOfCode2023.Day01;
 
-public class Day01Part01Solver
+public class Year2023Day01Part01Solver
 {
     public int Solve(IEnumerable<string> input) => input.Sum(ConciseCalibrationValueExtract);
 
