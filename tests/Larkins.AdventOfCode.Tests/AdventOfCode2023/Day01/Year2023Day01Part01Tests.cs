@@ -3,7 +3,7 @@ using Larkins.AdventOfCode.AdventOfCode2023.Day01;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2023.Day01;
 
-public class Day01Part01Tests
+public class Year2023Day01Part01Tests
 {
     [Theory]
     [InlineData("1abc2", 12)]
@@ -14,7 +14,7 @@ public class Day01Part01Tests
         string inputLine,
         int expected)
     {
-        var solver = new Day01Part01Solver();
+        var solver = new Year2023Day01Part01Solver();
         var result = solver.Solve([inputLine]);
 
         result.Should().Be(expected);
@@ -31,7 +31,7 @@ public class Day01Part01Tests
             """;
         var inputLines = input.Split(Environment.NewLine);
 
-        var solver = new Day01Part01Solver();
+        var solver = new Year2023Day01Part01Solver();
         var result = solver.Solve(inputLines);
 
         result.Should().Be(142);
