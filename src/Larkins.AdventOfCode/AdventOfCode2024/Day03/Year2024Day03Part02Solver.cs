@@ -6,7 +6,7 @@ public class Year2024Day03Part02Solver
 {
     public int Solve(string input)
     {
-        var dontFollowedByDo = @"(don't\(\).*?do\(\))*";
+        var dontFollowedByDo = @"don't\(\).*?do\(\)";
         var dontNotFollowedByDo = @"don't\(\)(?!.*don't\(\)).*$"; // Negative look ahead to find the last don't
         
         input = Regex.Replace(input, dontFollowedByDo, "", RegexOptions.Singleline);
