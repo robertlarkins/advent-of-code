@@ -11,7 +11,7 @@ public class Year2024Day02Part02Solver
             var values = line.Split(" ");
             var levels = values.Select(int.Parse).ToList();
 
-            var isSafe = IsReportSafe(levels);
+            var isSafe = IsReportSafe(levels); // This line isn't needed as StepThroughRemovingLevels could be used directly
             if (!isSafe)
             {
                 isSafe = StepThroughRemovingLevels(levels);
@@ -25,15 +25,16 @@ public class Year2024Day02Part02Solver
         
         return safeReports;
     }
-
+    
     private bool StepThroughRemovingLevels(List<int> levels)
     {
         for (var i = 0; i < levels.Count; i++)
         {
-            var removedItem = levels[i];
+            var removedLevel = levels[i];
             levels.RemoveAt(i);
             var isSafe = IsReportSafe(levels);
-            levels.Insert(i, removedItem);
+            levels.Insert(i, removedLevel);
+
             if (isSafe)
             {
                 return true;
