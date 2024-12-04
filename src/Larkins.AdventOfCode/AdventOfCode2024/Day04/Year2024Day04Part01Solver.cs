@@ -2,132 +2,84 @@ namespace Larkins.AdventOfCode.AdventOfCode2024.Day04;
 
 public class Year2024Day04Part01Solver
 {
+    private const string Mas = "MAS";
+    private char[,] puzzle;
+    private int height;
+    private int width;
+    
     public int Solve(IEnumerable<string> input)
     {
-        var puzzle = ParseInput(input);
+        puzzle = ParseInput(input);
         var xmasCount = 0;
 
-        for (var y = 0; y < puzzle.GetLength(0); y++)
+        height = puzzle.GetLength(0);
+        width = puzzle.GetLength(1);
+
+        for (var row = 0; row < height; row++)
         {
-            for (var x = 0; x < puzzle.GetLength(1); x++)
+            for (var col = 0; col < width; col++)
             {
-                if (puzzle[y, x] != 'X')
-                {
-                    continue;
-                }
-                
-                // look in all directions
-                // up
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y - 1, x]}{puzzle[y - 2, x]}{puzzle[y - 3, x]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // up right
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y - 1, x+1]}{puzzle[y - 2, x+2]}{puzzle[y - 3, x+3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // right
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y, x+1]}{puzzle[y, x+2]}{puzzle[y, x+3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // down right
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y+1, x+1]}{puzzle[y+2, x+2]}{puzzle[y+3, x+3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // down
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y+1, x+0]}{puzzle[y+2, x+0]}{puzzle[y+3, x+0]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // down left
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y+1, x-1]}{puzzle[y+2, x-2]}{puzzle[y+3, x-3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // left
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y+0, x-1]}{puzzle[y+0, x-2]}{puzzle[y+0, x-3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
-                // up left
-                try
-                {
-                    var temp = $"{puzzle[y, x]}{puzzle[y-1, x-1]}{puzzle[y-2, x-2]}{puzzle[y-3, x-3]}";
-                    if (temp == "XMAS")
-                    {
-                        xmasCount++;
-                    }
-                }
-                catch
-                {
-                }
+                xmasCount += XmasFromIndex(row, col);
             }   
         }
 
         return xmasCount;
     }
 
-    private char[,] ParseInput(IEnumerable<string> input)
+    private int XmasFromIndex(int row, int col)
     {
-        var blah = input.ToList();
-        var puzzle = new char[blah.Count, blah[0].Length];
-
-        for (var i = 0; i < blah.Count; i++)
+        if (puzzle[row, col] != 'X')
         {
-            var line = blah[i];
-            var array = line.ToArray();
+            return 0;
+        }
+
+        var canGoUp = row >= 3;
+        var canGoDown = row < height - 3;
+        var canGoLeft = col >= 3;
+        var canGoRight = col < width - 3;
+
+        var directions = new List<(int row, int col, bool canUse)>
+        {
+            (-1, 0, canGoUp), // up
+            (-1, 1, canGoUp && canGoRight), // up right
+            (0, 1, canGoRight), // right 
+            (1, 1, canGoDown && canGoRight), // down right
+            (1, 0, canGoDown), // down
+            (1, -1, canGoDown && canGoLeft), // down left
+            (0, -1, canGoLeft), // left
+            (-1, -1, canGoUp && canGoLeft), // up left
+        };
+
+        return directions.Count(direction => IsMasFoundForDirection(row, col, direction));
+    }
+
+    private bool IsMasFoundForDirection(int row, int col, (int row, int col, bool canUse) direction)
+    {
+        if (!direction.canUse)
+        {
+            return false;
+        }
+
+        for (var i = 1; i <= 3; i++)
+        {
+            var neighbourChar = puzzle[row + direction.row * i, col + direction.col * i];
+            if (neighbourChar != Mas[i - 1])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    private static char[,] ParseInput(IEnumerable<string> input)
+    {
+        var rows = input.ToList();
+        var puzzle = new char[rows.Count, rows[0].Length];
+
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var array = rows[i].ToArray();
 
             for (var j = 0; j < array.Length; j++)
             {
