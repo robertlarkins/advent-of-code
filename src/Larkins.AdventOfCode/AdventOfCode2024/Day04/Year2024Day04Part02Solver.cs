@@ -6,6 +6,8 @@ public class Year2024Day04Part02Solver
     {
         var puzzle = ParseInput(input);
         var xmasCount = 0;
+        const string ms = "MS";
+        const string sm = "SM";
 
         for (var y = 1; y < puzzle.GetLength(0) - 1; y++)
         {
@@ -16,15 +18,15 @@ public class Year2024Day04Part02Solver
                     continue;
                 }
                 
-                // Check if top left is M and bottom right is S
-                var temp1 = $"{puzzle[y - 1, x - 1]}{puzzle[y, x]}{puzzle[y + 1, x + 1]}";
-                var temp2 = $"{puzzle[y - 1, x + 1]}{puzzle[y, x]}{puzzle[y + 1, x - 1]}";
-                if (temp1 == "MAS" || temp1 == "SAM")
+                // find diagonal cases of MAS or SAM. Though 'A' is dropped
+                // as the current array element is 'A'.
+                var diagonal1 = $"{puzzle[y - 1, x - 1]}{puzzle[y + 1, x + 1]}";
+                var diagonal2 = $"{puzzle[y - 1, x + 1]}{puzzle[y + 1, x - 1]}";
+
+                if (diagonal1 is ms or sm &&
+                    diagonal2 is ms or sm)
                 {
-                    if (temp2 == "MAS" || temp2 == "SAM")
-                    {
-                        xmasCount++;
-                    }
+                    xmasCount++;
                 }
             }   
         }
@@ -34,13 +36,12 @@ public class Year2024Day04Part02Solver
 
     private char[,] ParseInput(IEnumerable<string> input)
     {
-        var blah = input.ToList();
-        var puzzle = new char[blah.Count, blah[0].Length];
+        var rows = input.ToList();
+        var puzzle = new char[rows.Count, rows[0].Length];
 
-        for (var i = 0; i < blah.Count; i++)
+        for (var i = 0; i < rows.Count; i++)
         {
-            var line = blah[i];
-            var array = line.ToArray();
+            var array = rows[i].ToArray();
 
             for (var j = 0; j < array.Length; j++)
             {
