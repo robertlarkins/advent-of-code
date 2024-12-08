@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Larkins.AdventOfCode.Utilities;
+﻿using Larkins.AdventOfCode.Utilities;
 
 namespace Larkins.AdventOfCode.Tests.UtilityTests;
 
