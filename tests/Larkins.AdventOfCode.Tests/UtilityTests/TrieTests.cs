@@ -1,4 +1,3 @@
-using FluentAssertions;
 using FluentAssertions.Execution;
 using Larkins.AdventOfCode.Utilities;
 

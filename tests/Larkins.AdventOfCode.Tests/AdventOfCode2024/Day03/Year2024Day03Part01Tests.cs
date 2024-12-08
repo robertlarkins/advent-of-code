@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Larkins.AdventOfCode.AdventOfCode2024.Day03;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2024.Day03;
