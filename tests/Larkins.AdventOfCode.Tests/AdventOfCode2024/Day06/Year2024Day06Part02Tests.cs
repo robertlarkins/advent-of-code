@@ -22,8 +22,8 @@ public class Year2024Day06Part02Tests
         
         var inputLines = input.Split(Environment.NewLine);
         
-        var solver = new Year2024Day06Part02Solver();
-        var result = solver.Solve(inputLines);
+        var solver = new Year2024Day06Part02Solver(inputLines);
+        var result = solver.Solve();
         result.Should().Be(6);
     }
 }

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Larkins.AdventOfCode.Models;
 
 namespace Larkins.AdventOfCode.AdventOfCode2024.Day06GuardGallivant;
@@ -11,11 +10,19 @@ public class Year2024Day06Part01Solver
     private Dictionary<int, SortedSet<int>> obstaclesByCol = new();
     private int mapHeight;
     private int mapWidth;
-    
-    public int Solve(IEnumerable<string> input)
+    private List<string> input;
+
+    public Year2024Day06Part01Solver(IEnumerable<string> input)
     {
-        var puzzle = ParseInput(input.ToList());
-        
+        this.input = input.ToList();
+        mapHeight = this.input.Count;
+        mapWidth = this.input[0].Length;
+
+        ParseInput();
+    }
+
+    public int Solve()
+    {
         var visitedPositions = new HashSet<Point2D>();
 
         PopulateObstaclePositions();
@@ -252,13 +259,9 @@ public class Year2024Day06Part01Solver
         Right
     }
     
-    private char[,] ParseInput(List<string> input)
+    private void ParseInput()
     {
-        mapHeight = input.Count;
-        mapWidth = input[0].Length;
-        
         var rows = input.ToList();
-        var puzzle = new char[mapHeight, mapWidth];
 
         for (var row = 0; row < mapHeight; row++)
         {
@@ -275,11 +278,7 @@ public class Year2024Day06Part01Solver
                 {
                     GuardStartPosition = new Point2D(row, col);
                 }
-                
-                puzzle[row, col] = array[col];
             }
         }
-
-        return puzzle;
     }
 }
