@@ -4,8 +4,8 @@ namespace Larkins.AdventOfCode.AdventOfCode2024.Day06GuardGallivant;
 
 public class Year2024Day06Part02Solver
 {
-    private readonly List<Point2D> ObstaclePositions = [];
-    private Point2D GuardStartPosition;
+    private readonly List<GridPoint> ObstaclePositions = [];
+    private GridPoint GuardStartPosition;
     private Dictionary<int, SortedSet<int>> obstaclesByRow = new();
     private Dictionary<int, SortedSet<int>> obstaclesByCol = new();
     private int mapHeight;
@@ -30,11 +30,11 @@ public class Year2024Day06Part02Solver
         // Get the position before the obstacle
         // Recalculate path to see if any of the points endup back at this position.
 
-        var triedObstaclePlaces = new HashSet<Point2D>
+        var triedObstaclePlaces = new HashSet<GridPoint>
         {
             GuardStartPosition,
         };
-        var obstaclePlaces = new HashSet<Point2D>();
+        var obstaclePlaces = new HashSet<GridPoint>();
         
         var loopCount = 0;
 
@@ -64,7 +64,7 @@ public class Year2024Day06Part02Solver
 
     private bool IsLoopCreated()
     {
-        var patrolPath = new HashSet<(Point2D, Direction)>();
+        var patrolPath = new HashSet<(GridPoint, Direction)>();
 
         var guardPosition = GuardStartPosition;
         var guardDirection = Direction.Up;
@@ -73,10 +73,10 @@ public class Year2024Day06Part02Solver
         {
             guardPosition = guardDirection switch
             {
-                Direction.Up => currentObstaclePosition! with { Y = currentObstaclePosition.Y + 1 },
-                Direction.Down => currentObstaclePosition! with { Y = currentObstaclePosition.Y - 1 },
-                Direction.Left => currentObstaclePosition! with { X = currentObstaclePosition.X + 1 },
-                Direction.Right => currentObstaclePosition! with { X = currentObstaclePosition.X - 1 },
+                Direction.Up => currentObstaclePosition! with { Row = currentObstaclePosition.Row + 1 },
+                Direction.Down => currentObstaclePosition! with { Row = currentObstaclePosition.Row - 1 },
+                Direction.Left => currentObstaclePosition! with { Col = currentObstaclePosition.Col + 1 },
+                Direction.Right => currentObstaclePosition! with { Col = currentObstaclePosition.Col - 1 },
                 _ => throw new UnreachableException()
             };
 
@@ -93,17 +93,17 @@ public class Year2024Day06Part02Solver
         return false;
     }
 
-    private List<Point2D> CalculatePointsBetween(
-        Point2D pointA,
-        Point2D pointB)
+    private List<GridPoint> CalculatePointsBetween(
+        GridPoint pointA,
+        GridPoint pointB)
     {
-        var points = new List<Point2D>
+        var points = new List<GridPoint>
         {
             pointA
         };
         
-        var xDiff = pointA.X - pointB.X;
-        var yDiff = pointA.Y - pointB.Y;
+        var xDiff = pointA.Col - pointB.Col;
+        var yDiff = pointA.Row - pointB.Row;
         
         var maxDiff = Math.Max(Math.Abs(xDiff), Math.Abs(yDiff));
         var xSign = Math.Sign(xDiff);
@@ -113,7 +113,7 @@ public class Year2024Day06Part02Solver
 
         for (var i = 0; i < maxDiff; i++)
         {
-            currentPoint = new Point2D(currentPoint.Y - ySign, currentPoint.X - xSign);
+            currentPoint = new GridPoint(currentPoint.Row - ySign, currentPoint.Col - xSign);
             
             points.Add(currentPoint);
         }
@@ -121,12 +121,12 @@ public class Year2024Day06Part02Solver
         return points;
     }
 
-    private List<(Point2D Position, Direction Direction)> CalculateFullPatrolPath()
+    private List<(GridPoint Position, Direction Direction)> CalculateFullPatrolPath()
     {
         var guardPosition = GuardStartPosition;
         var guardDirection = Direction.Up;
         
-        var patrolPath = new List<(Point2D Position, Direction Direction)>
+        var patrolPath = new List<(GridPoint Position, Direction Direction)>
         {
             (guardPosition, guardDirection) 
         };
@@ -135,10 +135,10 @@ public class Year2024Day06Part02Solver
         {
             guardPosition = guardDirection switch
             {
-                Direction.Up => currentObstaclePosition! with { Y = currentObstaclePosition.Y + 1 },
-                Direction.Down => currentObstaclePosition! with { Y = currentObstaclePosition.Y - 1 },
-                Direction.Left => currentObstaclePosition! with { X = currentObstaclePosition.X + 1 },
-                Direction.Right => currentObstaclePosition! with { X = currentObstaclePosition.X - 1 },
+                Direction.Up => currentObstaclePosition! with { Row = currentObstaclePosition.Row + 1 },
+                Direction.Down => currentObstaclePosition! with { Row = currentObstaclePosition.Row - 1 },
+                Direction.Left => currentObstaclePosition! with { Col = currentObstaclePosition.Col + 1 },
+                Direction.Right => currentObstaclePosition! with { Col = currentObstaclePosition.Col - 1 },
                 _ => throw new UnreachableException()
             };
 
@@ -155,10 +155,10 @@ public class Year2024Day06Part02Solver
         // add last position on map
         guardPosition = guardDirection switch
         {
-            Direction.Up => guardPosition with {Y = 0},
-            Direction.Down => guardPosition with {Y = mapHeight - 1},
-            Direction.Left => guardPosition with {X = 0},
-            Direction.Right => guardPosition with {X = mapWidth - 1},
+            Direction.Up => guardPosition with {Row = 0},
+            Direction.Down => guardPosition with {Row = mapHeight - 1},
+            Direction.Left => guardPosition with {Col = 0},
+            Direction.Right => guardPosition with {Col = mapWidth - 1},
             _ => throw new UnreachableException()
         };
         
@@ -173,9 +173,9 @@ public class Year2024Day06Part02Solver
     }
 
     private bool TryGetNextObstaclePosition(
-        Point2D guardPosition,
+        GridPoint guardPosition,
         Direction guardDirection,
-        out Point2D? obstaclePosition)
+        out GridPoint? obstaclePosition)
     {
         obstaclePosition = default;
 
@@ -188,8 +188,8 @@ public class Year2024Day06Part02Solver
             // For right, search in the same row, but col greater than current position
             case Direction.Up:
             {
-                var col = guardPosition.X;
-                var row = guardPosition.Y;
+                var col = guardPosition.Col;
+                var row = guardPosition.Row;
                 var hasObstacle = obstaclesByCol.TryGetValue(col, out var obstacleRowPositions);
 
                 if (!hasObstacle)
@@ -206,13 +206,13 @@ public class Year2024Day06Part02Solver
                 
                 var closestRow = closestRows.Max;
                 
-                obstaclePosition = new Point2D(closestRow, col);
+                obstaclePosition = new GridPoint(closestRow, col);
                 return true;
             }
             case Direction.Down:
             {
-                var col = guardPosition.X;
-                var row = guardPosition.Y;
+                var col = guardPosition.Col;
+                var row = guardPosition.Row;
                 var hasObstacle = obstaclesByCol.TryGetValue(col, out var obstacleRowPositions);
 
                 if (!hasObstacle)
@@ -228,13 +228,13 @@ public class Year2024Day06Part02Solver
                 
                 var closestRow = closestRows.Min;
 
-                obstaclePosition = new Point2D(closestRow, col);
+                obstaclePosition = new GridPoint(closestRow, col);
                 return true;
             }
             case Direction.Left:
             {
-                var col = guardPosition.X;
-                var row = guardPosition.Y;
+                var col = guardPosition.Col;
+                var row = guardPosition.Row;
                 var hasObstacle = obstaclesByRow.TryGetValue(row, out var obstacleColPositions);
 
                 if (!hasObstacle)
@@ -251,13 +251,13 @@ public class Year2024Day06Part02Solver
                 
                 var closestCol = closestCols.Max;
                 
-                obstaclePosition = new Point2D(row, closestCol);
+                obstaclePosition = new GridPoint(row, closestCol);
                 return true;
             }
             case Direction.Right:
             {
-                var col = guardPosition.X;
-                var row = guardPosition.Y;
+                var col = guardPosition.Col;
+                var row = guardPosition.Row;
                 var hasObstacle = obstaclesByRow.TryGetValue(row, out var obstacleColPositions);
 
                 if (!hasObstacle)
@@ -274,7 +274,7 @@ public class Year2024Day06Part02Solver
                 
                 var closestCol = closestCols.Min;
 
-                obstaclePosition = new Point2D(row, closestCol);
+                obstaclePosition = new GridPoint(row, closestCol);
                 return true;
             }
             default:
@@ -302,10 +302,10 @@ public class Year2024Day06Part02Solver
         }
     }
 
-    private void AddObstaclePosition(Point2D obstaclePosition)
+    private void AddObstaclePosition(GridPoint obstaclePosition)
     {
-        var row = obstaclePosition.Y;
-        var col = obstaclePosition.X;
+        var row = obstaclePosition.Row;
+        var col = obstaclePosition.Col;
             
         if (!obstaclesByRow.TryAdd(row, [col]))
         {
@@ -318,10 +318,10 @@ public class Year2024Day06Part02Solver
         }
     }
 
-    private void RemoveObstaclePosition(Point2D obstaclePosition)
+    private void RemoveObstaclePosition(GridPoint obstaclePosition)
     {
-        var row = obstaclePosition.Y;
-        var col = obstaclePosition.X;
+        var row = obstaclePosition.Row;
+        var col = obstaclePosition.Col;
 
         if (obstaclesByRow.ContainsKey(row))
         {
@@ -354,12 +354,12 @@ public class Year2024Day06Part02Solver
             {
                 if (array[col] == '#')
                 {
-                    ObstaclePositions.Add(new Point2D(row, col));
+                    ObstaclePositions.Add(new GridPoint(row, col));
                 }
 
                 if (array[col] == '^')
                 {
-                    GuardStartPosition = new Point2D(row, col);
+                    GuardStartPosition = new GridPoint(row, col);
                 }
             }
         }
