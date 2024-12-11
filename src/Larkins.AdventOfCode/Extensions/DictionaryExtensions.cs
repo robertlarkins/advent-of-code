@@ -14,4 +14,17 @@ public static class DictionaryExtensions
             dictionary[item]++;
         }
     }
+    
+    public static void AddOrIncrement<T>(
+        this Dictionary<T, long> dictionary,
+        T item)
+        where T : notnull
+    {
+        var isItemInDictionary = dictionary.TryAdd(item, 1);
+            
+        if (!isItemInDictionary)
+        {
+            dictionary[item]++;
+        }
+    }
 }
