@@ -1,3 +1,4 @@
+using Larkins.AdventOfCode.Extensions;
 using Larkins.AdventOfCode.Models;
 
 namespace Larkins.AdventOfCode.AdventOfCode2024.Day12GardenGroups;
@@ -96,10 +97,6 @@ public class Year2024Day12Part02Solver
                     TryAddPerimeterCell(cell, direction);
                 }
             }
-
-            
-            // get four neighbours
-            // check if the neighbours are valid (within the grid or have the same value)
         }
 
         var totalSideCount =
@@ -117,43 +114,17 @@ public class Year2024Day12Part02Solver
             switch (direction)
             {
                 case Direction.Up:
-                {
-                    if (!upDirection.TryAdd(point.Row, [point.Col]))
-                    {
-                        upDirection[point.Row].Add(point.Col);
-                    }
-
+                    upDirection.AddOrInsert(point.Row, point.Col);
                     break;
-                }
                 case Direction.Down:
-                {
-                    if (!downDirection.TryAdd(point.Row, [point.Col]))
-                    {
-                        downDirection[point.Row].Add(point.Col);
-                    }
-
+                    downDirection.AddOrInsert(point.Row, point.Col);
                     break;
-                }
                 case Direction.Left:
-                {
-                    if (!leftDirection.TryAdd(point.Col, [point.Row]))
-                    {
-                        leftDirection[point.Col].Add(point.Row);
-                    }
-
+                    leftDirection.AddOrInsert(point.Col, point.Row);
                     break;
-                }
                 case Direction.Right:
-                {
-                    if (!rightDirection.TryAdd(point.Col, [point.Row]))
-                    {
-                        rightDirection[point.Col].Add(point.Row);
-                    }
-
+                    rightDirection.AddOrInsert(point.Col, point.Row);
                     break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
         }
     }
@@ -164,19 +135,9 @@ public class Year2024Day12Part02Solver
         
         foreach (var group in perimeterCells.Values)
         {
-            var previous = group.ElementAt(0);
-            
-            foreach (var next in group.Skip(1))
-            {
-                if (next - previous > 1)
-                {
-                    edgeCount++;
-                }
-
-                previous = next;
-            }
-
-            edgeCount++;
+            edgeCount += group.Skip(1)
+                .Zip(group, (curr, prev) => curr - prev > 1)
+                .Count(x => x) + 1; // Add 1 to include single edge, or the last edge
         }
         
         return edgeCount;
