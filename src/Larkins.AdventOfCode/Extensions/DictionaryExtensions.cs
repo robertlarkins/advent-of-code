@@ -7,9 +7,9 @@ public static class DictionaryExtensions
         T item)
         where T : notnull
     {
-        var isItemInDictionary = dictionary.TryAdd(item, 1);
+        var isAddSuccessful = dictionary.TryAdd(item, 1);
             
-        if (!isItemInDictionary)
+        if (!isAddSuccessful)
         {
             dictionary[item]++;
         }
@@ -20,11 +20,26 @@ public static class DictionaryExtensions
         T item)
         where T : notnull
     {
-        var isItemInDictionary = dictionary.TryAdd(item, 1);
+        var isAddSuccessful = dictionary.TryAdd(item, 1);
             
-        if (!isItemInDictionary)
+        if (!isAddSuccessful)
         {
             dictionary[item]++;
+        }
+    }
+
+    public static void AddOrInsert<TKey, TItem>(
+        this Dictionary<TKey, SortedSet<TItem>> dictionary,
+        TKey key,
+        TItem item)
+        where TKey : notnull
+        where TItem : notnull
+    {
+        var isAddSuccessful = dictionary.TryAdd(key, [item]);
+        
+        if (!isAddSuccessful)
+        {
+            dictionary[key].Add(item);
         }
     }
 }
