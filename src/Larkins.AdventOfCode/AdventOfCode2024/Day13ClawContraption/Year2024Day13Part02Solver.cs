@@ -5,7 +5,7 @@ namespace Larkins.AdventOfCode.AdventOfCode2024.Day13ClawContraption;
 
 public class Year2024Day13Part02Solver
 {
-    private List<ClawGame> clawGames = [];
+    private readonly List<ClawGame> clawGames = [];
     private const decimal Tolerance = 1e-8M;
 
     public Year2024Day13Part02Solver(IEnumerable<string> input)
@@ -28,21 +28,13 @@ public class Year2024Day13Part02Solver
         decimal bX = clawGame.ButtonB.X;
         decimal bY = clawGame.ButtonB.Y;
 
-        var n = (prizeX / aX - prizeY / aY) / (bX / aX - bY / aY);
+        var n = (prizeX * aY - prizeY * aX) / (bX * aY - bY * aX);
         var m = (prizeX - n * bX) / aX;
 
         var isMLong = m.TryConvertToLong(Tolerance, out var mLong);
         var isNLong = n.TryConvertToLong(Tolerance, out var nLong);
 
         if (!isMLong || !isNLong)
-        {
-            return 0;
-        }
-
-        var validX = (mLong * aX + nLong * bX).IsEqualTo(prizeX, Tolerance);
-        var validY = (mLong * aY + nLong * bY).IsEqualTo(prizeY, Tolerance);
-
-        if (!validX || !validY)
         {
             return 0;
         }
@@ -54,16 +46,16 @@ public class Year2024Day13Part02Solver
     {
         var lines = input.Count;
 
-        var buttonPattern = @"X\+(?<xnum>\d+), Y\+(?<ynum>\d+)";
-        var prizePattern = @"X=(?<xnum>\d+), Y=(?<ynum>\d+)";
+        var buttonRegex = Y24D13RegexPatterns.ButtonRegex();
+        var prizePattern = Y24D13RegexPatterns.PrizeLocationRegex();
 
         var prizeLocationShift = 10_000_000_000_000L;
 
         for (var i = 0; i < lines; i += 4)
         {
-            var buttonA = Regex.Match(input[i], buttonPattern);
-            var buttonB = Regex.Match(input[i+1], buttonPattern);
-            var prize = Regex.Match(input[i+2], prizePattern);
+            var buttonA = buttonRegex.Match(input[i]);
+            var buttonB = buttonRegex.Match(input[i+1]);
+            var prize = prizePattern.Match(input[i+2]);
 
             var clawGame = new ClawGame
             {
@@ -82,4 +74,14 @@ public class Year2024Day13Part02Solver
         public (int X, int Y) ButtonB { get; set; }
         public (long X, long Y) Prize { get; set; }
     }
+   
+}
+
+public static partial class Y24D13RegexPatterns
+{
+    [GeneratedRegex(@"X\+(?<xnum>\d+), Y\+(?<ynum>\d+)")]
+    public static partial Regex ButtonRegex();
+
+    [GeneratedRegex(@"X=(?<xnum>\d+), Y=(?<ynum>\d+)")]
+    public static partial Regex PrizeLocationRegex();
 }
