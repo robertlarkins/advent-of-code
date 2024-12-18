@@ -4,23 +4,23 @@ namespace Larkins.AdventOfCode.AdventOfCode2024.Day12GardenGroups;
 
 public class Year2024Day12Part01Solver
 {
-    private Grid grid;
+    private CharGrid charGrid;
     private bool[,] visited;
     
     public Year2024Day12Part01Solver(IEnumerable<string> input)
     {
         var inputData = input.ToList();
-        grid = new Grid(inputData);
-        visited = new bool[grid.Height, grid.Width];
+        charGrid = new CharGrid(inputData);
+        visited = new bool[charGrid.Height, charGrid.Width];
     }
 
     public int Solve()
     {
         var regions = new List<(int Area, int Perimeter)>();
         
-        for (var row = 0; row < grid.Height; row++)
+        for (var row = 0; row < charGrid.Height; row++)
         {
-            for (var col = 0; col < grid.Width; col++)
+            for (var col = 0; col < charGrid.Width; col++)
             {
                 var gridPoint = new GridPoint(row, col);
 
@@ -41,7 +41,7 @@ public class Year2024Day12Part01Solver
 
     private (int Area, int Perimeter) ProcessRegion(GridPoint point)
     {
-        var valueToFind = grid.GetCell(point);
+        var valueToFind = charGrid.GetCell(point);
         var cellsToCheck = new Queue<GridPoint>([point]);
         var area = 0;
         var perimeter = 0;
@@ -69,10 +69,10 @@ public class Year2024Day12Part01Solver
 
             foreach (var neighbour in neighbours)
             {
-                if (neighbour.IsWithinGrid(grid.Height, grid.Width) &&
+                if (neighbour.IsWithinGrid(charGrid.Height, charGrid.Width) &&
                     visited[neighbour.Row, neighbour.Col])
                 {
-                    if (grid.GetCell(neighbour) != valueToFind)
+                    if (charGrid.GetCell(neighbour) != valueToFind)
                     {
                         perimeter++;
                     }
@@ -80,8 +80,8 @@ public class Year2024Day12Part01Solver
                     continue;
                 }
                 
-                if (grid.IsPointInsideGrid(neighbour) &&
-                    grid.GetCell(neighbour) == valueToFind)
+                if (charGrid.IsPointInsideGrid(neighbour) &&
+                    charGrid.GetCell(neighbour) == valueToFind)
                 {
                     cellsToCheck.Enqueue(neighbour);
                 }
