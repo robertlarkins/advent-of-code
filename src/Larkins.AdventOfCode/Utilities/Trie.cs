@@ -4,7 +4,7 @@ public enum WordSearchResult
 {
     Found,
     StartOfWord,
-    NotFound
+    NotFound,
 }
 
 /// <summary>
@@ -13,7 +13,7 @@ public enum WordSearchResult
 /// </summary>
 public class Trie
 {
-    private Node root = new();
+    private readonly Node root = new();
 
     public void AddWord(string word)
     {
@@ -21,7 +21,7 @@ public class Trie
         foreach (var @char in word)
         {
             var hasNextCharNode = currentNode!.Children.TryGetValue(@char, out var nextCharNode);
-            
+
             if (!hasNextCharNode)
             {
                 nextCharNode = new Node();
@@ -30,7 +30,7 @@ public class Trie
 
             currentNode = nextCharNode;
         }
-        
+
         currentNode!.IsWord = true;
     }
 
