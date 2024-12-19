@@ -4,7 +4,8 @@ public enum WordSearchResult
 {
     Found,
     StartOfWord,
-    NotFound
+    NotFound,
+    FoundAndStartOfWord
 }
 
 /// <summary>
@@ -13,7 +14,7 @@ public enum WordSearchResult
 /// </summary>
 public class Trie
 {
-    private Node root = new();
+    private readonly Node root = new();
 
     public void AddWord(string word)
     {
@@ -21,7 +22,7 @@ public class Trie
         foreach (var @char in word)
         {
             var hasNextCharNode = currentNode!.Children.TryGetValue(@char, out var nextCharNode);
-            
+
             if (!hasNextCharNode)
             {
                 nextCharNode = new Node();
@@ -30,7 +31,7 @@ public class Trie
 
             currentNode = nextCharNode;
         }
-        
+
         currentNode!.IsWord = true;
     }
 
@@ -58,6 +59,32 @@ public class Trie
         return currentNode!.IsWord
             ? WordSearchResult.Found
             : WordSearchResult.StartOfWord;
+    }
+
+    public WordSearchResult SearchForWordAlsoIndicatingStart(string word)
+    {
+        var currentNode = root;
+        foreach (var @char in word)
+        {
+            var hasNextCharNode = currentNode!.Children.TryGetValue(@char, out currentNode);
+
+            if (!hasNextCharNode)
+            {
+                return WordSearchResult.NotFound;
+            }
+        }
+
+        if (!currentNode!.IsWord)
+        {
+            return WordSearchResult.StartOfWord;
+        }
+
+        if (currentNode.Children.Count > 0)
+        {
+            return WordSearchResult.FoundAndStartOfWord;
+        }
+
+        return WordSearchResult.Found;
     }
 
     private class Node

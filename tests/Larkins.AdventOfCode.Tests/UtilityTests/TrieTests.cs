@@ -12,14 +12,13 @@ public class TrieTests
     private const string Nope = "nope";
     private const string Meat = "meat";
     private const string Seat = "seat";
-    
+
     // Performance tests
     // - only the minimum number of nodes needed are present. Can this be tested?
 
     [Fact]
     public void Trie_contains_added_word()
     {
-        
         var sut = new Trie();
         sut.AddWord(Word);
 
@@ -32,22 +31,22 @@ public class TrieTests
     public void Same_word_added_separately_to_trie_makes_no_changes()
     {
         var sut = new Trie();
-        
+
         sut.AddWord(Word);
         sut.AddWord(Word);
-        
+
         var result = sut.SearchForWord(Word);
 
         result.Should().Be(WordSearchResult.Found);
     }
-    
+
     [Fact]
     public void Same_word_added_to_trie_makes_no_changes()
     {
         var sut = new Trie();
-        
+
         sut.AddWords([Word, Word]);
-        
+
         var result = sut.SearchForWord(Word);
 
         result.Should().Be(WordSearchResult.Found);
@@ -58,14 +57,14 @@ public class TrieTests
     {
         var sut = new Trie();
         sut.AddWords([Treat, Treatment]);
-        
+
         using (new AssertionScope())
         {
             sut.SearchForWord(Treatment).Should().Be(WordSearchResult.Found);
             sut.SearchForWord(Treat).Should().Be(WordSearchResult.Found);
         }
     }
-    
+
     [Fact]
     public void Trie_contains_both_added_words_when_the_first_word_is_part_of_the_second_word()
     {
@@ -83,12 +82,12 @@ public class TrieTests
     public void Trie_does_not_contain_word_that_has_not_been_added()
     {
         var sut = new Trie();
-       
+
         var result = sut.SearchForWord(Nope);
 
         result.Should().Be(WordSearchResult.NotFound);
     }
-    
+
     /// <summary>
     /// A searched for word not in the trie could be the start of another word.
     /// Knowing this can be helpful if adding to the search word might find a word.
@@ -98,7 +97,7 @@ public class TrieTests
     {
         var sut = new Trie();
         sut.AddWord(Treatment);
-        
+
         var result = sut.SearchForWord(Treat);
 
         result.Should().Be(WordSearchResult.StartOfWord);
@@ -117,7 +116,7 @@ public class TrieTests
             sut.SearchForWord(Seat).Should().Be(WordSearchResult.Found);
         }
     }
-    
+
     [Fact]
     public void Trie_contains_all_separately_added_words()
     {
