@@ -31,6 +31,17 @@ public class CharGrid
     public void SetCell(GridPoint point, char value) =>
         values[point.Row, point.Col] = value;
 
+    public List<GridPoint> GetHorizontalAndVerticalNeighbours(GridPoint point)
+    {
+        return new List<GridPoint>
+        {
+            point with { Row = point.Row - 1 }, // up
+            point with { Row = point.Row + 1 }, // down
+            point with { Col = point.Col - 1 }, // left
+            point with { Col = point.Col + 1 }, // right
+        }.Where(IsPointInsideGrid).ToList();
+    }
+
     private void ParseInput(List<string> input)
     {
         for (var row = 0; row < Height; row++)
