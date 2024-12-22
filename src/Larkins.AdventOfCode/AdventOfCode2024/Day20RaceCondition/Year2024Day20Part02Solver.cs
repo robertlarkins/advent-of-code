@@ -22,9 +22,10 @@ public class Year2024Day20Part02Solver
 
     public int Solve()
     {
-        for (var position = 0; position < raceTrack.Count - minimumSavings; position++)
+        // 2 is minus/added as it is the minimum distance to get through a wall.
+        for (var position = 0; position < raceTrack.Count - minimumSavings - 2; position++)
         {
-            for (var newPosition = position + minimumSavings;
+            for (var newPosition = position + minimumSavings + 2;
                  newPosition < raceTrack.Count;
                  newPosition++)
             {
