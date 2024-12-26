@@ -41,8 +41,8 @@ public class Year2024Day05Part01Tests
         
         var inputLines = input.Split(Environment.NewLine);
         
-        var solver = new Year2024Day05Part01Solver();
-        var result = solver.Solve(inputLines);
+        var solver = new Year2024Day05Part01Solver(inputLines);
+        var result = solver.Solve();
         result.Should().Be(143);
     }
 }
