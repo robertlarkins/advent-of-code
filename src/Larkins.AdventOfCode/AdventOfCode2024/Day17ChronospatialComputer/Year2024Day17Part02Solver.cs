@@ -1,22 +1,78 @@
 namespace Larkins.AdventOfCode.AdventOfCode2024.Day17ChronospatialComputer;
 
-public class Year2024Day17Part01Solver
+public class Year2024Day17Part02Solver
 {
-    private int registerA;
-    private int registerB;
-    private int registerC;
+    private ulong registerA;
+    private ulong registerB;
+    private ulong registerC;
+    private ulong originalRegisterA;
+    private ulong originalRegisterB;
+    private ulong originalRegisterC;
     private List<int> program = [];
+    private List<int> programInReverse = [];
     private int instructionPointer;
     private List<int> output = [];
+    private List<ulong> RegisterARegister = [];
 
-    public Year2024Day17Part01Solver(IEnumerable<string> input)
+    public Year2024Day17Part02Solver(IEnumerable<string> input)
     {
         var inputData = input.ToList();
         ParseInput(inputData);
     }
 
-    public string Solve()
+    public ulong Solve()
     {
+        programInReverse = Enumerable.Reverse(program).ToList();
+
+        RecurseThrough(0, 0UL);
+
+        return RegisterARegister.Order().First();
+    }
+
+    private void RecurseThrough(
+        int position,
+        ulong currentRegisterA)
+    {
+        if (position == programInReverse.Count)
+        {
+            RegisterARegister.Add(currentRegisterA);
+            return;
+        }
+
+        // go through each octal
+        for (var octal = 0UL; octal < 8; octal++)
+        {
+            // append octal onto currentRegisterA
+            var tempRegisterA = currentRegisterA;
+            tempRegisterA <<= 3;
+            tempRegisterA |= octal;
+
+            var result = GenerateOutput(tempRegisterA);
+
+            if (position >= result.Count)
+            {
+                continue;
+            }
+
+            result.Reverse();
+
+            var isCurrentResultEqualToProgram = result.SequenceEqual(programInReverse.Take(result.Count));
+
+            if (isCurrentResultEqualToProgram)
+            {
+                RecurseThrough(position + 1, tempRegisterA);
+            }
+        }
+    }
+
+    private List<int> GenerateOutput(ulong registerATestValue)
+    {
+        registerA = registerATestValue;
+        registerB = originalRegisterB;
+        registerC = originalRegisterC;
+        instructionPointer = 0;
+        output = [];
+
         for (; instructionPointer < program.Count; instructionPointer += 2)
         {
             var opcode = program[instructionPointer];
@@ -26,17 +82,14 @@ public class Year2024Day17Part01Solver
             instructionOperation(operand);
         }
 
-        return string.Join(',', output);
+        return output;
     }
 
-    public (int registerA, int registerB, int registerC) GetRegisterValues() =>
-        (registerA, registerB, registerC);
-
-    private int GetComboOperandValue(int operand)
+    private ulong GetComboOperandValue(int operand)
     {
         if (operand is >= 0 and <= 3)
         {
-            return operand;
+            return (ulong)operand;
         }
 
         return operand switch
@@ -74,7 +127,7 @@ public class Year2024Day17Part01Solver
     private void AdvInstruction(int operand)
     {
         var comboOperandValue = GetComboOperandValue(operand);
-        registerA >>= comboOperandValue;
+        registerA >>= (int)comboOperandValue;
     }
 
     /// <summary>
@@ -84,7 +137,7 @@ public class Year2024Day17Part01Solver
     private void BdvInstruction(int operand)
     {
         var comboOperandValue = GetComboOperandValue(operand);
-        registerB = registerA >> comboOperandValue;
+        registerB = registerA >> (int)comboOperandValue;
     }
 
     /// <summary>
@@ -94,7 +147,7 @@ public class Year2024Day17Part01Solver
     private void CdvInstruction(int operand)
     {
         var comboOperandValue = GetComboOperandValue(operand);
-        registerC = registerA >> comboOperandValue;
+        registerC = registerA >> (int)comboOperandValue;
     }
 
     /// <summary>
@@ -104,7 +157,7 @@ public class Year2024Day17Part01Solver
     /// <param name="literalOperandValue"></param>
     private void BxlInstruction(int literalOperandValue)
     {
-        registerB ^= literalOperandValue;
+        registerB ^= (ulong)literalOperandValue;
     }
 
     /// <summary>
@@ -154,21 +207,21 @@ public class Year2024Day17Part01Solver
     private void OutInstruction(int operand)
     {
         var comboOperandValue = GetComboOperandValue(operand);
-        output.Add(comboOperandValue & 7);
+        output.Add((int)(comboOperandValue & 7));
     }
 
     private void ParseInput(List<string> input)
     {
-        registerA = ParseRegisterLine(input[0]);
-        registerB = ParseRegisterLine(input[1]);
-        registerC = ParseRegisterLine(input[2]);
+        originalRegisterA = ParseRegisterLine(input[0]);
+        originalRegisterB = ParseRegisterLine(input[1]);
+        originalRegisterC = ParseRegisterLine(input[2]);
 
         program = ParseProgramLine(input[4]);
 
         return;
 
-        static int ParseRegisterLine(string line) =>
-            int.Parse(line.Split(':', StringSplitOptions.TrimEntries)[1]);
+        static ulong ParseRegisterLine(string line) =>
+            ulong.Parse(line.Split(':', StringSplitOptions.TrimEntries)[1]);
 
         static List<int> ParseProgramLine(string line)
         {
