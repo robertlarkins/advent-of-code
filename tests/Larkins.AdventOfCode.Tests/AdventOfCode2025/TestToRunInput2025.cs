@@ -1,4 +1,6 @@
 using Larkins.AdventOfCode.AdventOfCode2025.Day01SecretEntrance;
+using Larkins.AdventOfCode.AdventOfCode2025.Day02GiftShop;
+using Larkins.AdventOfCode.AdventOfCode2025.Day03Lobby;
 using Larkins.AdventOfCode.Utilities;
 using Xunit.Abstractions;
 
@@ -11,10 +13,10 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
     {
         var inputFilePath =
             @"C:\dev\robertlarkins\advent-of-code\src\Larkins.AdventOfCode\AdventOfCode2025\PuzzleInput\";
-        var inputFileName = "day01_input.txt";
+        var inputFileName = "day03_input.txt";
         var reader = new TextFileReader();
-        var lines = reader.ReadTextToSeparateLines(inputFilePath + inputFileName);
-        var solver = new Year2025Day01Part02Solver(lines);
+        var input = reader.ReadTextToSeparateLines(inputFilePath + inputFileName);
+        var solver = new Year2025Day03Part02Solver(input);
         var solvedValue = solver.Solve();
 
         if (solvedValue <= 4231)
@@ -23,5 +25,6 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
         }
 
         outputHelper.WriteLine($"Solved value = '{solvedValue}'");
+        // 168575096286051
     }
 }
