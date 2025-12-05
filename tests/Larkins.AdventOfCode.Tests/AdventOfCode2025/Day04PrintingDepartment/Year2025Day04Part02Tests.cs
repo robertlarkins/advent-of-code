@@ -2,10 +2,10 @@
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025.Day04PrintingDepartment;
 
-public class Year2025Day04Part01Tests
+public class Year2025Day04Part02Tests
 {
     [Fact]
-    public void Paper_is_accessible_if_fewer_than_four_rolls_around_it()
+    public void Paper_becomes_accessible_if_fewer_than_four_rolls_around_it()
     {
         var input = """
             ..@@.@@@@.
@@ -20,10 +20,10 @@ public class Year2025Day04Part01Tests
             @.@.@@@.@.
             """;
 
-        var solver = new Year2025Day04Part01Solver(input);
+        var solver = new Year2025Day04Part02Solver(input);
 
         var result = solver.Solve();
 
-        result.Should().Be(13);
+        result.Should().Be(43);
     }
 }

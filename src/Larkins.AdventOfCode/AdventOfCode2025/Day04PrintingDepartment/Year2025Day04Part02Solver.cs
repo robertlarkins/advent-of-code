@@ -2,13 +2,13 @@
 
 namespace Larkins.AdventOfCode.AdventOfCode2025.Day04PrintingDepartment;
 
-public class Year2025Day04Part01Solver
+public class Year2025Day04Part02Solver
 {
     private readonly char[,] grid;
     private readonly int rows;
     private readonly int cols;
 
-    public Year2025Day04Part01Solver(string input)
+    public Year2025Day04Part02Solver(string input)
     {
         grid = input.ConvertToRectangularArray();
         rows = grid.GetLength(0);
@@ -16,6 +16,24 @@ public class Year2025Day04Part01Solver
     }
 
     public int Solve()
+    {
+        var count = 0;
+
+        while (true)
+        {
+            var accessiblePaperCount = CountAccessiblePaper();
+            count += accessiblePaperCount;
+
+            if (accessiblePaperCount == 0)
+            {
+                break;
+            }
+        }
+
+        return count;
+    }
+
+    private int CountAccessiblePaper()
     {
         var count = 0;
 
@@ -30,6 +48,7 @@ public class Year2025Day04Part01Solver
 
                 if (HasFewerThanFourRollsAroundIt(row, col))
                 {
+                    grid[row, col] = '.';
                     count++;
                 }
             }
