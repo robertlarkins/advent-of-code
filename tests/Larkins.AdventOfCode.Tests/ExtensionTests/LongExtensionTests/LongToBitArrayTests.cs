@@ -44,7 +44,7 @@ public class LongToBitArrayTests
     {
         var value = 8L;
         var boolArray = new bool[63];
-        boolArray[4] = true;
+        boolArray[3] = true;
         var expected = new BitArray(boolArray);
 
         var result = value.ToBitArray();

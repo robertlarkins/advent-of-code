@@ -1,8 +1,5 @@
-using Larkins.AdventOfCode.AdventOfCode2025.Day01SecretEntrance;
-using Larkins.AdventOfCode.AdventOfCode2025.Day02GiftShop;
 using Larkins.AdventOfCode.AdventOfCode2025.Day03Lobby;
 using Larkins.AdventOfCode.Utilities;
-using Xunit.Abstractions;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025;
 
