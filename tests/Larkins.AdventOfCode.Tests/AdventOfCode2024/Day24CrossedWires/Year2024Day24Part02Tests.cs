@@ -1,6 +1,5 @@
 using Larkins.AdventOfCode.AdventOfCode2024.Day24CrossedWires;
 using Larkins.AdventOfCode.Utilities;
-using Xunit.Abstractions;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2024.Day24CrossedWires;
 

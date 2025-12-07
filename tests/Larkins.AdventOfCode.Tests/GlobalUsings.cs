@@ -4,4 +4,5 @@
 //   <Using Include="Xunit"/>
 // </ItemGroup>
 
-global using FluentAssertions;
+global using AwesomeAssertions;
+global using AwesomeAssertions.Execution;
