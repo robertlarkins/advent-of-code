@@ -1,7 +1,4 @@
-using Larkins.AdventOfCode.AdventOfCode2025.Day01SecretEntrance;
-//using Larkins.AdventOfCode.AdventOfCode2025.Day02GiftShop;
-using Larkins.AdventOfCode.AdventOfCode2025.Day03Lobby;
-using Larkins.AdventOfCode.AdventOfCode2025.Day04PrintingDepartment;
+using Larkins.AdventOfCode.AdventOfCode2025.Day11Reactor;
 using Larkins.AdventOfCode.Utilities;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025;
@@ -13,12 +10,12 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
     {
         var inputFilePath =
             @"C:\dev\robertlarkins\advent-of-code\src\Larkins.AdventOfCode\AdventOfCode2025\PuzzleInput\";
-        var inputFileName = "day04_input.txt";
+        var inputFileName = "day11_input.txt";
         var reader = new TextFileReader();
         // var input = reader.ReadTextToSeparateLines(inputFilePath + inputFileName);
 
         var input = reader.ReadAllTextInFile(inputFilePath + inputFileName);
-        var solver = new Year2025Day04Part02Solver(input);
+        var solver = new Year2025Day11Part02Solver(input);
         var solvedValue = solver.Solve();
 
         outputHelper.WriteLine($"Solved value = '{solvedValue}'");
