@@ -1,4 +1,4 @@
-using Larkins.AdventOfCode.AdventOfCode2025.Day02GiftShop;
+using Larkins.AdventOfCode.AdventOfCode2025.Day06TrashCompactor;
 using Larkins.AdventOfCode.Utilities;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025;
@@ -10,13 +10,14 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
     {
         var inputFilePath =
             @"C:\dev\robertlarkins\advent-of-code\src\Larkins.AdventOfCode\AdventOfCode2025\PuzzleInput\";
-        var inputFileName = "day02_input.txt";
+        var inputFileName = "day06_input.txt";
         var reader = new TextFileReader();
         var input = reader.ReadAllTextInFile(inputFilePath + inputFileName);
 
-        var solver = new Year2025Day02Part02Solver(input);
+        var solver = new Year2025Day06Part02Solver(input);
         var solvedValue = solver.Solve();
 
+        // 54274873921
         outputHelper.WriteLine($"Solved value = '{solvedValue}'");
     }
 }
