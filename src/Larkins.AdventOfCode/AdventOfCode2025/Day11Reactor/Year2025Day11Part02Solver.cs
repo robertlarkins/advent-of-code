@@ -49,20 +49,13 @@ public class Year2025Day11Part02Solver
             return 0;
         }
 
-        if (device.HasBeenVisited)
-        {
-            return device.PathsToDestination;
-        }
-
-        device.HasBeenVisited = true;
-
         if (device == endDevice)
         {
             device.PathsToDestination = 1;
-            return 1;
+            device.HasBeenVisited = true;
         }
 
-        if (device.PathsToDestination > 0)
+        if (device.HasBeenVisited)
         {
             return device.PathsToDestination;
         }
@@ -71,6 +64,8 @@ public class Year2025Day11Part02Solver
         {
             device.PathsToDestination += Path(outputDevice, endDevice, ignoreList);
         }
+
+        device.HasBeenVisited = true;
 
         return device.PathsToDestination;
     }
