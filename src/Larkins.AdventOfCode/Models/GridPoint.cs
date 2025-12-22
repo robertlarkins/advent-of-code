@@ -1,5 +1,10 @@
 namespace Larkins.AdventOfCode.Models;
 
+/// <summary>
+/// A point in a grid.
+/// </summary>
+/// <param name="Row">The row (y) the point is on.</param>
+/// <param name="Col">The col (x) the point is on.</param>
 public record GridPoint(
     int Row,
     int Col)
