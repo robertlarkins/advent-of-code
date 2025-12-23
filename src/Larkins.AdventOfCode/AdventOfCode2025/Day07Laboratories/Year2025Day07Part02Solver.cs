@@ -4,7 +4,6 @@ namespace Larkins.AdventOfCode.AdventOfCode2025.Day07Laboratories;
 
 public class Year2025Day07Part02Solver
 {
-    // row, columns splitters are in
     private GridPoint beamStartPoint;
     private readonly SortedList<int, SortedSet<int>> splittersByRow = [];
     private readonly SortedList<int, SortedSet<int>> splittersByCol = [];
@@ -18,14 +17,6 @@ public class Year2025Day07Part02Solver
 
     public long Solve()
     {
-        // how many timelines are formed from a particular splitter
-        // work from the bottom up and find splitters
-        // the bottom splitters have two.
-
-        // Go throw each row from bottom to top
-        // for each splitter check its two beam. If a beam has no splitters below it. Then add 1
-        // if the splitter has splitters below it, add the timelines of the splitter below
-
         var rows = splittersByRow.Keys.Reverse();
 
         foreach (var row in rows)
@@ -37,8 +28,6 @@ public class Year2025Day07Part02Solver
                 var splitterLocation = new GridPoint(row, splitterColumn);
                 var leftBeam = splitterLocation with { Col = splitterColumn - 1 };
                 var rightBeam = splitterLocation with { Col = splitterColumn + 1 };
-                // splittersByCol
-                // from this splitter find if there is a splitter below
                 var timelines = TimelinesFromSplitterBeam(leftBeam) + TimelinesFromSplitterBeam(rightBeam);
 
                 timelinesFromSplitter.Add(splitterLocation, timelines);
@@ -47,7 +36,7 @@ public class Year2025Day07Part02Solver
 
         var firstSplitterRow = splittersByCol[beamStartPoint.Col].First();
 
-        // Get the first splitter
+        // Return the timeline count from the splitter the start beam first hits
         return timelinesFromSplitter[beamStartPoint with { Row = firstSplitterRow }];
 
         long TimelinesFromSplitterBeam(GridPoint beam)
