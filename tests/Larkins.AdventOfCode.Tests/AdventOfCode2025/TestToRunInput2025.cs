@@ -1,4 +1,4 @@
-using Larkins.AdventOfCode.AdventOfCode2025.Day09MovieTheatre;
+using Larkins.AdventOfCode.AdventOfCode2025.Day07Laboratories;
 using Larkins.AdventOfCode.Utilities;
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025;
@@ -10,11 +10,11 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
     {
         var inputFilePath =
             @"C:\dev\robertlarkins\advent-of-code\src\Larkins.AdventOfCode\AdventOfCode2025\PuzzleInput\";
-        var inputFileName = "day09_input.txt";
+        var inputFileName = "day07_input.txt";
         var reader = new TextFileReader();
         var input = reader.ReadAllTextInFile(inputFilePath + inputFileName);
 
-        var solver = new Year2025Day09Part02Solver(input);
+        var solver = new Year2025Day07Part01Solver(input);
         var solvedValue = solver.Solve();
 
         outputHelper.WriteLine($"Solved value = '{solvedValue}'");
