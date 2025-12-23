@@ -14,7 +14,7 @@ public class TestToRunInput2025(ITestOutputHelper outputHelper)
         var reader = new TextFileReader();
         var input = reader.ReadAllTextInFile(inputFilePath + inputFileName);
 
-        var solver = new Year2025Day07Part01Solver(input);
+        var solver = new Year2025Day07Part02Solver(input);
         var solvedValue = solver.Solve();
 
         outputHelper.WriteLine($"Solved value = '{solvedValue}'");

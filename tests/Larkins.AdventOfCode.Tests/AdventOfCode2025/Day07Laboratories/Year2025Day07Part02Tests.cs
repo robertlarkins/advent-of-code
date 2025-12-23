@@ -2,10 +2,10 @@
 
 namespace Larkins.AdventOfCode.Tests.AdventOfCode2025.Day07Laboratories;
 
-public class Year2025Day07Part01Tests
+public class Year2025Day07Part02Tests
 {
     [Fact]
-    public void Tachyon_Beam_Splitter()
+    public void Total_timelines()
     {
         var input = """
             .......S.......
@@ -26,10 +26,10 @@ public class Year2025Day07Part01Tests
             ...............
             """;
 
-        var sut = new Year2025Day07Part01Solver(input);
+        var sut = new Year2025Day07Part02Solver(input);
 
         var result = sut.Solve();
 
-        result.Should().Be(21);
+        result.Should().Be(40);
     }
 }
