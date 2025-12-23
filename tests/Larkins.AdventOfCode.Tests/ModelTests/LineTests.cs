@@ -40,6 +40,11 @@ public class LineTests
             new Line(new GridPoint(4, 0), new GridPoint(4, 4)),
             [new GridPoint(4, 1)]
         },
+        {
+            new Line(new GridPoint(3, 0), new GridPoint(3, 3)),
+            new Line(new GridPoint(4, 3), new GridPoint(2, 3)),
+            [new GridPoint(3, 3)]
+        },
     };
 
     public static TheoryData<Line, Line, List<GridPoint>> NonIntersectingLineScenarios() => new()
